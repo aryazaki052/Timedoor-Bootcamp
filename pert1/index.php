@@ -52,33 +52,33 @@
 // echo "Product: $productName, Price: {$details['price']}, Stock: {$details['stock']} <br>";
 // }
 
-$nim = [
- [ 'nim'=> 220010001,
-  'nama'=> "hoki bangsawan",
-  'alamat' => "sibang",
-  'email' => "hoki@gmail.com"
-],
- [ 'nim'=> 220010001,
-  'nama'=> "zaki",
-  'alamat' => "sibang",
-  'email' => "hoki@gmail.com"
-],
- [ 'nim'=> 220010001,
-  'nama'=> "adit",
-  'alamat' => "sibang",
-  'email' => "hoki@gmail.com"
-],
- [ 'nim'=> 220010001,
-  'nama'=> "rinus",
-  'alamat' => "sibang",
-  'email' => "hoki@gmail.com"
-],
- [ 'nim'=> 220010001,
-  'nama'=> "bryan",
-  'alamat' => "sibang",
-  'email' => "hoki@gmail.com"
-]
-];
+// $nim = [
+//  [ 'nim'=> 220010001,
+//   'nama'=> "hoki bangsawan",
+//   'alamat' => "sibang",
+//   'email' => "hoki@gmail.com"
+// ],
+//  [ 'nim'=> 220010001,
+//   'nama'=> "zaki",
+//   'alamat' => "sibang",
+//   'email' => "hoki@gmail.com"
+// ],
+//  [ 'nim'=> 220010001,
+//   'nama'=> "adit",
+//   'alamat' => "sibang",
+//   'email' => "hoki@gmail.com"
+// ],
+//  [ 'nim'=> 220010001,
+//   'nama'=> "rinus",
+//   'alamat' => "sibang",
+//   'email' => "hoki@gmail.com"
+// ],
+//  [ 'nim'=> 220010001,
+//   'nama'=> "bryan",
+//   'alamat' => "sibang",
+//   'email' => "hoki@gmail.com"
+// ]
+// ];
 
 // for ($i = 0; $i < count($nim); $i++) {
 //   echo "NIM: " . $nim[$i]['nim'] . "<br>"; 
@@ -101,28 +101,82 @@ $nim = [
 // tugas!!
 // tampilkan maksimum berdasarkan price
 // lalu compare total price berdasarkan stock dan berikan satu echo untuk produk apa yang paling mahal dan paling rendah
-$storeInventory =[
-    "Section A" =>[
-    "Product X" =>["price" => 25, "stock" => 50],
-    "Product Y" =>["price" => 35, "stock" => 20],
-    "Product Z" =>["price" => 30, "stock" => 45]
+$storeInventory = [
+    "Section A" => [
+        "Product X" => ["price" => 25, "stock" => 50],
+        "Product Y" => ["price" => 35, "stock" => 20],
+        "Product Z" => ["price" => 30, "stock" => 45]
     ],
-    "Section B" =>[
-    "Product W" =>["price" => 22, "stock" => 60],
-    "Product V" =>["price" => 40, "stock" => 25],
-    "Product U" =>["price" => 28, "stock" => 30]
+    "Section B" => [
+        "Product W" => ["price" => 22, "stock" => 60],
+        "Product V" => ["price" => 40, "stock" => 25],
+        "Product U" => ["price" => 28, "stock" => 30]
     ]
-    ];
+];
 
+$maxValue = PHP_INT_MIN;
+$minValue = PHP_INT_MAX;
+$maxProduct = null;
+$minProduct = null;
 
-    foreach ($storeInventory as $sectionName => $products) {
+foreach ($storeInventory as $sectionName => $products) {
     echo "<strong>$sectionName:</strong><br>";
+
     foreach ($products as $productName => $details) {
-    echo "Product: $productName, Price: {$details['price']}, Stock: {$details['stock']}
-    <br>";
+        $productValue = $details['price'] * $details['stock'];
+
+        if ($productValue > $maxValue) {
+            $maxValue = $productValue;
+            $maxProduct = $productName;
+        }
+
+        if ($productValue < $minValue) {
+            $minValue = $productValue;
+            $minProduct = $productName;
+        }
+
+        echo "Product: $productName, Price: {$details['price']}, Stock: {$details['stock']}, Total Price: $productValue<br>";
     }
+
     echo "<br>";
-    }
+}
+
+echo "Produk Termahal Adalah: $maxProduct, Dengan Harga: $maxValue<br>";
+echo "Produk Termurah Adalah: $minProduct, Dengan Harga: $minValue<br>";
 
 
+
+// // tugas
+
+// $expensive = 0;
+// $cheapest = 99999;
+// $MaxTotalPriceProductName = "";
+// $cheapestProductName = "";
+
+// foreach ($storeInventory as $sectionName => $products) {
+//     echo "<strong>$sectionName</strong><br>";
+//     foreach ($products as $productName => $details) {
+//         $totalPrice = $details['price'] * $details['stock'];
+//         echo "$productName<br>";
+//         echo "Total Price: {$totalPrice}";
+
+//         echo "<br>";
+//         echo "<br>";
+        
+//         if ($expensive < $details['price'] * $details['stock']){
+//             $expensive = $details['price'] * $details['stock'];
+//             $MaxTotalPriceProductName = $productName;
+//         }
+
+//         if ($cheapest > $details['price'] * $details['stock']){
+//             $cheapest = $details['price'] * $details['stock'];
+//             $cheapestProductName = $productName;
+//         }
+//     }
+// }
+
+// echo "Barang Termahal adalah {$MaxTotalPriceProductName} dengan harga {$expensive}";
+// echo "<br>";
+// echo "<br>";
+// echo "Barang termurah adalah {$cheapestProductName} dengan harga {$cheapest}";
 ?>
