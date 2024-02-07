@@ -1,0 +1,19 @@
+1. insert into products(product_name, price, quantity) values ('laptop', '200', '5');
+
+2. select * from products;
+
+3. select * from products where price < 100;
+
+4. update products set price = 80 where id=2;
+
+5. delete from products where id = 1;
+
+6. Select * from products where quantity > 0;
+
+7. SELECT * FROM `products` WHERE product_name LIKE "la*"
+
+8. SELECT * FROM products ORDER BY id ASC LIMIT 3;
+
+9. SELECT product_name, price FROM products ORDER BY price DESC;
+
+10. SELECT * FROM products ORDER BY price DESC LIMIT 5 OFFSET 3;
