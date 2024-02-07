@@ -94,21 +94,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $triangle = new Triangle();
   $triangle->setBase($miringSegitiga);
   $triangle->setHeight($tinggiSegitiga);
-  
+
   $square = new Square();
   $square->setSide($sisiPersegi);
-  
+
   $rectangle = new Rectangle();
   $rectangle->setWidth($lebarPersegiPanjang);
   $rectangle->setHeight($panjangPersegiPanjang);
-  
+
   $shapes = [$triangle, $square, $rectangle];
-  
+
   $shapeCollection = new ShapeCollection();
   foreach ($shapes as $shape) {
     $shapeCollection->addShape($shape);
   }
-  
+
   $totalArea = $shapeCollection->calculateTotalArea();
 
   // echo "miring segitga" . $miringSegitiga . "<br>";
@@ -169,9 +169,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   <div>
     <?php
-    if(isset($totalArea)){
+    if (isset($totalArea)) {
       echo "total Luas: $totalArea";
-    }else{
+    } else {
       echo "Masukan Data Terlebih Dahulu";
     }
     ?>
