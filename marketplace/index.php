@@ -68,6 +68,7 @@
         <th>Product Name</th>
         <th>Price</th>
         <th>Quantity</th>
+        <th>Total Price</th>
         <th>Action</th>
         </tr>
       </thead>
@@ -83,6 +84,7 @@
               <td><?php echo $product["product_name"] ?></td>
               <td><?php echo $product["price"] ?></td>
               <td><?php echo $product["quantity"] ?></td>
+              <td><?php echo $product["price"] * $product["quantity"] ?></td>
               <td>
               <a href="view/detail.php?id=<?php echo $product["id"] ?>">View</a> |
               <a href="view/update.php?id=<?php echo $product["id"] ?>">Update</a> |
