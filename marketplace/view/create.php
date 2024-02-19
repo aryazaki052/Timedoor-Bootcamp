@@ -12,15 +12,22 @@
   <div>
     <?php
     require_once("../controller/controllerClass.php");
-    $productController = new ProductController();
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      $productName = $_POST['product_name'];
-      $price = $_POST['price'];
-      $quantity = $_POST['quantity'];
-
-      $productController->createProduct($productName, $price, $quantity);
-    }
+      $productController = new ProductController();
+      $data = array(
+          'product_name' => $_POST['product_name'],
+          'price' => $_POST['price'],
+          'quantity' => $_POST['quantity'],
+      );
+      if ($productController->createProduct($data)) {
+          echo "Product added successfully.";
+          header("Location: ../index.php");
+          exit();
+      } else {
+          echo "Failed to add product.";
+      }
+  }
     ?>
   </div>
   <h2>Create Product</h2>

@@ -1,22 +1,25 @@
 <?php
 require_once("../controller/controllerClass.php");
+
 $productController = new ProductController();
-
-$db = new DBClass();
-$conn = $db->getConnection();
-
 
 if (isset($_GET['id'])) {
     $productId = $_GET['id'];
 
-    // Query ke database untuk mendapatkan detail produk berdasarkan ID
-    $sql = "SELECT * FROM products WHERE id = :id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id', $productId);
-    $stmt->execute();
-    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+    $product = $productController->getProductById($productId);
 
     if ($product) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = array(
+                'product_name' => $_POST['product_name'],
+                'price' => $_POST['price'],
+                'quantity' => $_POST['quantity']
+            );
+
+            $productController->updateProduct($productId, $data);
+            header('Location: ../index.php');
+            exit();
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,17 +32,6 @@ if (isset($_GET['id'])) {
 
 <body>
 
-    <div>
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $productName = $_POST['product_name'];
-            $price = $_POST['price'];
-            $quantity = $_POST['quantity'];
-
-            $productController->updateProduct($productId, $productName, $price, $quantity);
-        }
-        ?>
-    </div>
     <h2>Update Product</h2>
     <a href="../index.php">Back to Product List</a>
 

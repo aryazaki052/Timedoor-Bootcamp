@@ -6,63 +6,45 @@ class ProductController {
     private $productModel;
 
     public function __construct() {
-        $db = new DBClass();
-        $conn = $db->getConnection();
-        $this->productModel = new Product($conn);
+        $data = array();
+        $this->productModel = new Product($data);
     }
 
-    public function createProduct($productName, $price, $quantity) {
-        try {
-            if ($this->productModel->create($productName, $price, $quantity)) {
-                header('Location: ../index.php');
-                exit(); 
-            } else {
-                echo "Failed to create product.";
-            }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-        }
+
+    public function getProductById($productId)
+    {
+        return $this->productModel->getProductById($productId);
     }
 
-    public function updateProduct($productId, $productName, $price, $quantity) {
-        try {
-            if ($this->productModel->update($productId, $productName, $price, $quantity)) {
-                header('Location: ../index.php');
-                exit(); 
-            } else {
-                echo "Failed to update product.";
-            }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-        }
+
+    public function createProduct($data)
+    {
+        return $this->productModel->createProduct($data);
+    }
+    
+
+    public function updateProduct($productId, $data) {
+        return $this->productModel->updateProduct($productId, $data);
     }
 
     public function deleteProduct($productId) {
-      try {
-          if ($this->productModel->delete($productId)) {
-              header('Location: ../index.php');
-              exit(); 
-          } else {
-              echo "Failed to delete product.";
-          }
-      } catch (Exception $e) {
-          echo "Error: " . $e->getMessage();
-      }
+        return $this->productModel->deleteProduct($productId);
   }
+
 
   public function multipleDelete($productId) {
     try {
         foreach ($productId as $productIds) {
-            if (!$this->productModel->delete($productIds)) {
+            if (!$this->productModel->deleteProduct($productIds)) {
                 echo "Failed to delete product with ID: " . $productId . "<br>";
             }
         }
-        header('Location: ../index.php');
-        exit(); 
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 }
+
+
   public function deletePermanent($productIds) {
     try {
         foreach ($productIds as $productId) {
@@ -70,8 +52,6 @@ class ProductController {
                 echo "Failed to delete product with ID: " . $productId . "<br>";
             }
         }
-        header('Location: ../view/trash.php');
-        exit(); 
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
