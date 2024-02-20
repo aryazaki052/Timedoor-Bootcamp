@@ -21,26 +21,20 @@ class ProductController
 
     public function createProduct($data)
     {
-
-        $tableName = "products";
-        $columns = ['product_name', 'price', 'quantity'];
-
-        return $this->productModel->createProduct($tableName, $columns, $data);
+        return $this->productModel->createProduct($data);
     }
 
 
 
     public function updateProduct($productId, $data)
     {
-        $tableName = "products";
-        $columns = ['product_name', 'price', 'quantity'];
-        return $this->productModel->updateProduct($productId, $tableName, $columns, $data);
+        return $this->productModel->updateProduct($productId, $data);
     }
 
     public function deleteProduct($productId)
     {
-        $tableName = "products";
-        return $this->productModel->deleteProduct($productId, $tableName);
+        // $tableName = "products";
+        return $this->productModel->deleteProduct($productId);
     }
 
 
@@ -48,8 +42,8 @@ class ProductController
     {
         try {
             foreach ($productId as $productIds) {
-                $tableName = "products";
-                if (!$this->productModel->deleteProduct($productIds, $tableName)) {
+                // $tableName = "products";
+                if (!$this->productModel->deleteProduct($productIds)) {
                     echo "Failed to delete product with ID: " . $productId . "<br>";
                 }
             }

@@ -15,21 +15,27 @@ class Product
     }
 
     // Method untuk membuat produk baru
-    public function createProduct($tableName, $columns, $data)
+    public function createProduct($data)
     {
+        $tableName = "products";
+        $columns = ['product_name', 'price', 'quantity'];
         return $this->conn->create($tableName, $columns, $data);
     }
 
 
     // Method untuk mengupdate produk
-    public function updateProduct($productId, $tableName, $columns, $data)
+    public function updateProduct($productId, $data)
     {
+        $tableName = "products";
+        $columns = ['product_name', 'price', 'quantity'];
+
         return $this->conn->update($productId, $tableName, $columns, $data);
     }
 
     // Method untuk menghapus produk
-    public function deleteProduct($productId, $tableName)
+    public function deleteProduct($productId)
     {
+        $tableName = "products";
         return $this->conn->delete($productId, $tableName);
     }
 

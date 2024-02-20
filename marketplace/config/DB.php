@@ -52,7 +52,7 @@ class DBClass
             $stmt = $this->conn->prepare($sql);
 
             foreach ($data as $key => $value) {
-                $stmt->bindValue(":$key", $value);
+                $stmt->bindValue(":{$key}", $value);
             }
 
             $stmt->execute();
@@ -74,7 +74,6 @@ class DBClass
             }
             
             $setColumns = rtrim($setColumns, ', ');
-            // Query SQL
             $sql = "UPDATE $tableName SET $setColumns WHERE id = :productId";
             $stmt = $this->conn->prepare($sql);
             
@@ -97,7 +96,6 @@ class DBClass
         try {
             $deletedAt = date("Y-m-d H:i:s");
             $stmt = $this->conn->prepare("UPDATE $tableName SET deleted_at = :deleted_at WHERE id = :id");
-            // $stmt = $this->conn->prepare("DELETE FROM $tableName WHERE id = :id");
             $stmt->bindParam(':id', $productId);
             $stmt->bindParam(':deleted_at', $deletedAt);
             return $stmt->execute();
