@@ -3,6 +3,7 @@ class Product
 {
     private $conn;
     private $tableName = "products";
+    private $columns = ['product_name', 'price', 'quantity'];
 
     public function __construct()
     {
@@ -19,19 +20,14 @@ class Product
     // Method untuk membuat produk baru
     public function createProduct($data)
     {
-        
-        $columns = ['product_name', 'price', 'quantity'];
-        return $this->conn->create($this->tableName, $columns, $data);
+        return $this->conn->create($this->tableName, $this->columns, $data);
     }
 
 
     // Method untuk mengupdate produk
     public function updateProduct($productId, $data)
     {
-        
-        $columns = ['product_name', 'price', 'quantity'];
-
-        return $this->conn->update($productId, $this->tableName, $columns, $data);
+        return $this->conn->update($productId, $this->tableName, $this->columns, $data);
     }
 
     // Method untuk menghapus produk
