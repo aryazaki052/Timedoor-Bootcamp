@@ -2,10 +2,12 @@
 class Product
 {
     private $conn;
+    private $tableName = "products";
 
     public function __construct()
     {
         $this->conn = new DBClass;
+        
     }
 
     // Method untuk mendapatkan produk berdasarkan ID
@@ -17,26 +19,26 @@ class Product
     // Method untuk membuat produk baru
     public function createProduct($data)
     {
-        $tableName = "products";
+        
         $columns = ['product_name', 'price', 'quantity'];
-        return $this->conn->create($tableName, $columns, $data);
+        return $this->conn->create($this->tableName, $columns, $data);
     }
 
 
     // Method untuk mengupdate produk
     public function updateProduct($productId, $data)
     {
-        $tableName = "products";
+        
         $columns = ['product_name', 'price', 'quantity'];
 
-        return $this->conn->update($productId, $tableName, $columns, $data);
+        return $this->conn->update($productId, $this->tableName, $columns, $data);
     }
 
     // Method untuk menghapus produk
     public function deleteProduct($productId)
     {
-        $tableName = "products";
-        return $this->conn->delete($productId, $tableName);
+        
+        return $this->conn->delete($productId, $this->tableName);
     }
 
     // Method untuk menghapus produk secara permanen
