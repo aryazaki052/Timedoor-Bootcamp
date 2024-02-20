@@ -21,10 +21,17 @@ class ProductController
 
     public function createProduct($data)
     {
+        // Cek apakah ada data yang kosong
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                echo "Field $key harus diisi.";
+                return false;
+            }
+        }
         return $this->productModel->createProduct($data);
     }
 
-    
+
 
 
 

@@ -35,9 +35,9 @@
 
   <form action="" method="post">
     <label for="productname">Product Name</label>
-    <input type="text" name="product_name" required> <br>
+    <input type="text" name="product_name" > <br>
     <label for="price">Price</label>
-    <input type="number" name="price" required><br>
+    <input type="number" name="price" ><br>
     <label for="quantity">Quantity</label>
     <input type="number" name="quantity" id=""> <br>
     <input type="submit" value="Add Product">
