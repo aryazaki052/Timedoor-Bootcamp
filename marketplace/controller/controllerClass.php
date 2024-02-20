@@ -24,6 +24,8 @@ class ProductController
         return $this->productModel->createProduct($data);
     }
 
+    
+
 
 
     public function updateProduct($productId, $data)

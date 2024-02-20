@@ -17,11 +17,18 @@ class Product
         return $this->conn->getProductById($productId);
     }
 
-    // Method untuk membuat produk baru
+
     public function createProduct($data)
-    {
-        return $this->conn->create($this->tableName, $this->columns, $data);
+{
+    // Cek apakah ada data yang kosong
+    foreach ($data as $key => $value) {
+        if (empty($value)) {
+            echo "Field $key harus diisi.";
+            return false; 
+        }
     }
+    return $this->conn->create($this->tableName, $this->columns, $data);
+}
 
 
     // Method untuk mengupdate produk
