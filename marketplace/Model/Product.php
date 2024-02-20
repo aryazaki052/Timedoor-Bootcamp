@@ -1,47 +1,47 @@
 <?php
-
-require_once("../config/DB.php");
-// $db = new DBClass();
-
 class Product
 {
     private $conn;
 
-    public function __construct($conn)
+    public function __construct()
     {
         $this->conn = new DBClass;
     }
 
+    // Method untuk mendapatkan produk berdasarkan ID
     public function getProductById($productId)
     {
         return $this->conn->getProductById($productId);
     }
 
-    public function createProduct($data)
+    // Method untuk membuat produk baru
+    public function createProduct($tableName, $columns, $data)
     {
-        return $this->conn->create($data['product_name'], $data['price'], $data['quantity']);
+        return $this->conn->create($tableName, $columns, $data);
     }
 
-    public function updateProduct($productId, $data)
+
+    // Method untuk mengupdate produk
+    public function updateProduct($productId, $tableName, $columns, $data)
     {
-        return $this->conn->update($productId, $data);
+        return $this->conn->update($productId, $tableName, $columns, $data);
     }
 
-    public function deleteProduct($productId)
+    // Method untuk menghapus produk
+    public function deleteProduct($productId, $tableName)
     {
-        return $this->conn->delete($productId);
+        return $this->conn->delete($productId, $tableName);
     }
-    
 
+    // Method untuk menghapus produk secara permanen
     public function deletePermanent($productId)
     {
-        return $this->conn->deletePermanent($productId);
+        return $this->conn->deletePermanent("products", $productId);
     }
 
-    public function restore($productId)
+    // Method untuk mengembalikan produk yang terhapus
+    public function restoreProduct($productId)
     {
-        return $this->conn->restore($productId);
-
-
+        return $this->conn->restore("products", $productId);
     }
 }

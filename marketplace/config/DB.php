@@ -22,42 +22,38 @@ class DBClass
         return $this->conn;
     }
 
-    public function getProductById($productId) {
+
+    public function getProductById($productId)
+    {
         try {
             $sql = "SELECT * FROM products WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $productId);
             $stmt->execute();
             $product = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
             return $product;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;
         }
     }
-    
-    
-    // Function to bind parameters
-    private function bindParams($stmt, $params)
-    {
-        foreach ($params as $key => &$value) {
-            $stmt->bindParam($key, $value);
-        }
-    }
 
-    public function create($product_name, $price, $quantity)
+    // Method untuk membuat data baru
+    public function create($tableName, $columns, $data)
     {
         try {
-            $stmt = $this->conn->prepare("INSERT INTO products(product_name, price, quantity) VALUES (:product_name, :price, :quantity)");
 
-            $params = array(
-                ':product_name' => $product_name,
-                ':price' => $price,
-                ':quantity' => $quantity,
-            );
+            $columnNames = implode(', ', $columns);
 
-            $this->bindParams($stmt, $params);
+            $columnValues = ':' . implode(', :', array_keys($data));
+
+            $sql = "INSERT INTO $tableName ($columnNames) VALUES ($columnValues)";
+            $stmt = $this->conn->prepare($sql);
+
+            foreach ($data as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
 
             $stmt->execute();
             return true;
@@ -67,21 +63,25 @@ class DBClass
         }
     }
 
-    
-    public function update($id, $data)
+
+    // Method untuk mengupdate data
+    public function update($productId, $tableName, $columns, $data)
     {
         try {
-            $stmt = $this->conn->prepare("UPDATE products SET product_name = :product_name, price = :price, quantity = :quantity WHERE id = :id");
-    
-            $params = array(
-                ':id' => $id,
-                ':product_name' => $data['product_name'],
-                ':price' => $data['price'],
-                ':quantity' => $data['quantity'],
-            );
-    
-            $this->bindParams($stmt, $params);
-    
+            $setColumns = '';
+            foreach ($columns as $key => $column) {
+                $setColumns .= "$column=:$column, ";
+            }
+            
+            $setColumns = rtrim($setColumns, ', ');
+            // Query SQL
+            $sql = "UPDATE $tableName SET $setColumns WHERE id = :productId";
+            $stmt = $this->conn->prepare($sql);
+            
+            foreach ($columns as $key => $column) {
+                $stmt->bindValue(":$column", $data[$column]);
+            }
+            $stmt->bindParam(":productId", $productId);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -89,11 +89,15 @@ class DBClass
             return false;
         }
     }
-    public function delete($productId)
+
+
+    // Method untuk menghapus data
+    public function delete($productId, $tableName)
     {
         try {
             $deletedAt = date("Y-m-d H:i:s");
-            $stmt = $this->conn->prepare("UPDATE products SET deleted_at = :deleted_at WHERE id = :id");
+            $stmt = $this->conn->prepare("UPDATE $tableName SET deleted_at = :deleted_at WHERE id = :id");
+            // $stmt = $this->conn->prepare("DELETE FROM $tableName WHERE id = :id");
             $stmt->bindParam(':id', $productId);
             $stmt->bindParam(':deleted_at', $deletedAt);
             return $stmt->execute();
@@ -101,22 +105,29 @@ class DBClass
             echo "Error: " . $e->getMessage();
             return false;
         }
-    }    
+    }
 
-    public function deletePermanent($productId){
+    // Method untuk menghapus data secara permanen
+    public function deletePermanent($tableName, $id)
+    {
         try {
-            $stmt = $this->conn->prepare("DELETE FROM products WHERE id = :id");
-            $stmt->bindParam(':id', $productId);
+            
+            $stmt = $this->conn->prepare("DELETE FROM $tableName WHERE id = :id");
+            $stmt->bindParam(':id', $id);
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;
         }
     }
-    public function restore($productId){
+
+    // Method untuk mengembalikan data yang terhapus
+    public function restore($tableName, $id)
+    {
         try {
-            $stmt = $this->conn->prepare("UPDATE products SET deleted_at = NULL WHERE id = :id");
-            $stmt->bindParam(':id', $productId);
+            
+            $stmt = $this->conn->prepare("UPDATE $tableName SET deleted_at = NULL WHERE id = :id");
+            $stmt->bindParam(':id', $id);
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();

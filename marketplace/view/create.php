@@ -19,7 +19,8 @@
           'product_name' => $_POST['product_name'],
           'price' => $_POST['price'],
           'quantity' => $_POST['quantity'],
-      );
+        );
+        // var_dump($data);
       if ($productController->createProduct($data)) {
           echo "Product added successfully.";
           header("Location: ../index.php");
