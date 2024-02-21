@@ -24,7 +24,7 @@ class ProductController
         // Cek apakah ada data yang kosong
         foreach ($data as $key => $value) {
             if (empty($value)) {
-                echo "Field $key harus diisi.";
+                echo "Kolom $key harus diisi.";
                 return false;
             }
         }

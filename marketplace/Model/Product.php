@@ -3,7 +3,7 @@ class Product
 {
     private $conn;
     private $tableName = "products";
-    private $columns = ['product_name', 'price', 'quantity'];
+    private $columns = ['product_name', 'price', 'quantity', 'description'];
 
     public function __construct()
     {
